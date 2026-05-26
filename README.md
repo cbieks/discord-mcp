@@ -2,6 +2,8 @@
 
 MCP server exposing 8 Discord bot operations as tools for LLM clients (Claude Desktop, etc.). Built directly against the Discord REST API v10 — no `discord.js` dependency.
 
+> **Heads up:** this is a deliberately small server covering the Discord operations I personally needed. If you start using it and want more — slash command management, voice channel actions, role/member operations, custom emoji reactions, webhook support, etc. — open an issue with what you'd want and how you'd use it. I'm happy to extend it.
+
 ## Discord bot setup
 
 1. **Create the application.** Go to https://discord.com/developers/applications and click **New Application**.
@@ -65,6 +67,19 @@ Each example shows what an LLM (e.g. Claude) might be prompted, and which tool i
 - **`search-messages`** — *"Find any messages mentioning 'incident' in channel 987654321098765432."*
 - **`react-to-message`** — *"React with a fire emoji to message 111111111111111111 in channel 987654321098765432."*
 - **`send-file`** — *"Send the image at https://example.com/diagram.png to channel 987654321098765432 with caption 'Architecture sketch'."*
+
+### Tip: let Claude remember your server and channel IDs
+
+Pasting 18-digit IDs into every prompt is painful. If you're using Claude Desktop with memory enabled, you only need to tell it the mapping **once** and it'll remember across conversations. Example one-time setup prompt:
+
+> *"Remember that my Discord server 'Game Night' has the ID 123456789012345678, and inside it the #general channel is 987654321098765432 and #announcements is 555555555555555555."*
+
+After that, you can refer to things by name and Claude will substitute the ID when calling the tool:
+
+> *"Send 'Lobby's open' to #general in Game Night."*
+> *"Read the last 20 messages from #announcements in Game Night."*
+
+Same trick works for frequently-referenced user IDs, message IDs, or whole groups of channels. Re-run the remember prompt whenever you add a new server.
 
 ## Notes & limitations
 
